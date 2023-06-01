@@ -1,10 +1,9 @@
-const { addKeyword } = require('@bot-whatsapp/bot')
-
+require('dotenv').config()
 const { addKeyword } = require('@bot-whatsapp/bot')
 const Agenda = require('agenda')
 
 // Configura la conexión a la base de datos para Agenda
-const agenda = new Agenda({ db: { address: 'mongodb://localhost/agenda' } })
+const agenda = new Agenda({ db: { address: process.env.MONGO_CONNECTION_STRING } })
 
 // Define una tarea de agenda para programar una cita
 agenda.define('schedule appointment', (job, done) => {
@@ -38,5 +37,4 @@ const flowPrincipal = addKeyword(['hola', 'ole', 'alo'])
     [flowService]
   )
 
-//Exporta el flujo de la aplicacion para que pueda ser utilizados por otros archivos
-  module.exports = { flowPrincipal }
+module.exports = { flowPrincipal }
