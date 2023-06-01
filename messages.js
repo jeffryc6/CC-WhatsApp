@@ -16,17 +16,19 @@ agenda.on('success:schedule appointment', (job) => {
   console.log(`Appointment for ${job.attrs.data.service} at ${job.attrs.data.time} completed successfully`)
 })
 
+let selectedService = null
+
 const flowService = addKeyword(['1', '2']).addAnswer((message) => {
-  const service = message.body === '1' ? 'Barba' : 'Corte de cabello'
+  selectedService = message.body === '1' ? 'Barba' : 'Corte de cabello'
   const price = message.body === '1' ? '6000 colones' : '5000 colones'
-  return `Has seleccionado ${service} que tiene un costo de ${price}. Por favor, selecciona un horario para tu cita.`
+  return `Has seleccionado ${selectedService} que tiene un costo de ${price}. Por favor, selecciona un horario para tu cita.`
 })
 
 const flowSchedule = addKeyword(['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00']).addAnswer(async (message) => {
   const time = message.body
   // Programa la cita utilizando Agenda
   try {
-    await agenda.schedule(time, 'schedule appointment', { service: flowService, time })
+    await agenda.schedule(time, 'schedule appointment', { service: selectedService, time })
     return `Tu cita ha sido agendada para las ${time}. ¡Te esperamos!`
   } catch (error) {
     console.error('Failed to schedule appointment:', error)
