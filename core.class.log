@@ -2,10 +2,29 @@
   key: {
     remoteJid: '50689135944@s.whatsapp.net',
     fromMe: false,
-    id: '3EB099035880F9A57739C3',
+    id: '3EB0E5722DB623544D20E1',
     participant: undefined
   },
-  messageTimestamp: 1685639549,
+  messageTimestamp: 1685639961,
+  pushName: 'jeffry',
+  message: Message {
+    conversation: '2',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: '2',
+  from: '50689135944'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '50689135944@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB0021D3F0F409015590E',
+    participant: undefined
+  },
+  messageTimestamp: 1685639967,
   pushName: 'jeffry',
   message: Message {
     conversation: 'hola',
@@ -21,18 +40,18 @@
   key: {
     remoteJid: '50689135944@s.whatsapp.net',
     fromMe: false,
-    id: '3EB0EE46EB907867195E65',
+    id: '3EB05E69A12FB91257254A',
     participant: undefined
   },
-  messageTimestamp: 1685639553,
+  messageTimestamp: 1685639971,
   pushName: 'jeffry',
   message: Message {
-    conversation: '1',
+    conversation: '2',
     messageContextInfo: MessageContextInfo {
       deviceListMetadata: [DeviceListMetadata],
       deviceListMetadataVersion: 2
     }
   },
-  body: '1',
+  body: '2',
   from: '50689135944'
 }
