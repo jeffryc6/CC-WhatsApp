@@ -6,10 +6,14 @@ const Agenda = require('agenda')
 const agenda = new Agenda({ db: { address: process.env.MONGO_CONNECTION_STRING } })
 
 // Define una tarea de agenda para programar una cita
-agenda.define('schedule appointment', (job, done) => {
+agenda.define('schedule appointment', async (job) => {
   const { service, time } = job.attrs.data
   console.log(`Scheduled appointment for ${service} at ${time}`)
-  done()
+})
+
+// Escucha el evento 'success' para saber cuándo se ha completado una cita
+agenda.on('success:schedule appointment', (job) => {
+  console.log(`Appointment for ${job.attrs.data.service} at ${job.attrs.data.time} completed successfully`)
 })
 
 const flowService = addKeyword(['1', '2']).addAnswer((message) => {
@@ -18,11 +22,16 @@ const flowService = addKeyword(['1', '2']).addAnswer((message) => {
   return `Has seleccionado ${service} que tiene un costo de ${price}. Por favor, selecciona un horario para tu cita.`
 })
 
-const flowSchedule = addKeyword(['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00']).addAnswer((message) => {
+const flowSchedule = addKeyword(['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00']).addAnswer(async (message) => {
   const time = message.body
   // Programa la cita utilizando Agenda
-  agenda.schedule(time, 'schedule appointment', { service: flowService, time })
-  return `Tu cita ha sido agendada para las ${time}. ¡Te esperamos!`
+  try {
+    await agenda.schedule(time, 'schedule appointment', { service: flowService, time })
+    return `Tu cita ha sido agendada para las ${time}. ¡Te esperamos!`
+  } catch (error) {
+    console.error('Failed to schedule appointment:', error)
+    return 'Lo siento, hubo un error al programar tu cita. Por favor, inténtalo de nuevo más tarde.'
+  }
 })
 
 const flowPrincipal = addKeyword(['hola', 'ole', 'alo'])
